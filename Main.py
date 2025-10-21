@@ -1,6 +1,3 @@
-# raiku-economic-research [raiku-economic-research-pack.zip](https://github.com/user-attachments/files/23019713/raiku-economic-research-pack.zip)
-[Uploading aot_jit_sim.py…]()
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
