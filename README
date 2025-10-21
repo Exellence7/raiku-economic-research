@@ -1,0 +1,42 @@
+
+# Pricing Solana Blockspace with AOT/JIT Slot Auctions & Local Fee Markets
+
+**Track:** Economic Research (Raiku)  
+**Project:** Slot Options & Mixed AOT/JIT Auctions  
+**Author:** <your name>
+
+## Motivation
+Under *localized* congestion, timing certainty—not raw TPS—drives user value and validator revenue. Raiku’s Ahead-of-Time (AOT) reservations and Just-in-Time (JIT) scheduling create a programmable market for **when** a transaction lands. We model and simulate mixed AOT/JIT auctions interacting with Solana’s **local fee market** to study welfare, validator revenue stability, and MEV externalities.
+
+## Model Snapshot
+- **Agents:** latency traders (L), schedulers (S), MEV/arbs (M), validators (V).  
+- **Capacity:** per-slot compute units `C`, split by conflict set (hot/cold).  
+- **Mechanisms:** AOT uniform-price auctions reserve `α·C` for future windows; JIT first-price-style tips clear the remainder `(1−α)·C`. Local fee market adds a convex surcharge on hot state.  
+- **Hypotheses:** (H1) Mixed AOT/JIT smooths welfare vs JIT-only; (H2) modest `α ∈ [0.2,0.4]` raises validator revenue **and** reduces its variance; (H3) conflict-set isolation + AOT reduces harmful MEV; (H4) appointments improve fairness for consumer drops.
+
+## Simulation
+Agent-based toy sim (Python) with bursty demand (Hawkes-like via random bursts), two conflict sets, and a quadratic local-fee surcharge. We sweep `α` from 0.0 to 0.6 and record failed-tx fraction, validator mean revenue, and revenue variance.
+
+### How to run
+```bash
+python aot_jit_sim.py
+```
+Outputs three plots and a `aot_jit_sim_summary.csv` summary.
+
+## Prototype: Slot Options
+We define a **slot option**: right to `x` CUs in window `[t, t+Δ]` for a conflict set. Price heuristic  
+`p_A(t) = β · E[p_J(t)] + γ · σ(p_J)` adds a risk premium to expected JIT prices. Options are refundable on SLA miss and can be made transferable for secondary trading.
+
+## Metrics
+- **Network health:** failed-tx %, p99 time-to-inclusion, hot-state externality index.  
+- **Economics:** validator revenue (mean/variance), delegator APR uplift, user surplus.  
+- **Fairness/UX:** win-rate parity, retries per success, appointment adherence.
+
+## Results (toy)
+In our sweep, failures drop at modest `α`, mean revenue increases monotonically, and revenue variance declines past mid `α`. See plots below. These results motivate a production evaluation with real traces and validator-participation modeling.
+
+## Loom Script (≤2 min)
+1) “Congestion on Solana is **local**. JIT prices **now**; Raiku adds AOT to price **time**.”  
+2) Show plots: failures↓, revenue variance↓ with modest `α`.  
+3) “Conflict-set auctions + small AOT reserve align validators, reduce spam/MEV.”  
+4) Ask: pilot mixed AOT/JIT with refundable SLAs and explore a simple slot-option AMM.
