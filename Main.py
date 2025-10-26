@@ -9,7 +9,6 @@ T = 300
 capacity = 100
 conflict_sets = ["hot", "cold"]
 alpha_grid = np.linspace(0.0, 0.6, 7)
-hot_share = 0.6
 burst_prob = 0.2
 burst_multiplier = 2.5
 local_fee_k = 0.8
