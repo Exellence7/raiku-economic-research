@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 rng = np.random.default_rng(42)
 
-# Simulation parameters
+# Simulation parameter
 T = 300
 capacity = 100
 conflict_sets = ["hot", "cold"]
